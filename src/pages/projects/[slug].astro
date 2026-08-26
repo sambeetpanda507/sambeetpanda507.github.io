@@ -35,45 +35,75 @@ const hasRepo = 'repo' in project && Boolean(project.repo);
 
   <main class="wrap">
     <section class="hero">
-      <p class="eyebrow">PROJECT / {project.tag}</p>
+      <p class="eyebrow">PROJECT CASE STUDY / {project.tag}</p>
       <h1>{project.title}</h1>
       <p class="lead">{project.summary}</p>
+      <p class="context">{project.context}</p>
       <div class="stack">{project.stack.map((item) => <span>{item}</span>)}</div>
     </section>
 
     <section>
-      <div class="label">01 · BUSINESS / REAL-WORLD PROBLEM</div>
-      <h2>What problem does it solve?</h2>
+      <div class="label">01 · PROBLEM & CONTEXT</div>
+      <h2>Why this project exists</h2>
       <p class="bodycopy">{project.problem}</p>
     </section>
 
     <section>
-      <div class="label">02 · SYSTEM DESIGN</div>
-      <h2>How the system is structured</h2>
-      <div class="two-col">
-        <ul>{project.architecture.map((item) => <li>{item}</li>)}</ul>
-        <div class="diagram"><pre class="mermaid">{project.mermaid}</pre></div>
-      </div>
+      <div class="label">02 · MY CONTRIBUTION</div>
+      <h2>What I worked on</h2>
+      <div class="cards">{project.contribution.map((item) => <article><span>→</span><p>{item}</p></article>)}</div>
     </section>
 
     <section>
-      <div class="label">03 · SCALABILITY</div>
-      <h2>Scaling characteristics and constraints</h2>
-      <div class="scalability">{project.scalability.map((item) => <article><span>→</span><p>{item}</p></article>)}</div>
-      <p class="note">These notes are limited to implementation details, architecture decisions, and professional project context already documented for this portfolio. No production traffic, user-count, or throughput figures are invented.</p>
+      <div class="label">03 · ENGINEERING CHALLENGES</div>
+      <h2>What made it interesting</h2>
+      <div class="cards">{project.challenges.map((item) => <article><span>!</span><p>{item}</p></article>)}</div>
+    </section>
+
+    <section>
+      <div class="label">04 · DESIGN DECISIONS</div>
+      <h2>Why the architecture looks this way</h2>
+      <div class="cards">{project.decisions.map((item) => <article><span>✓</span><p>{item}</p></article>)}</div>
+    </section>
+
+    <section>
+      <div class="label">05 · EXECUTION FLOW</div>
+      <h2>How data and work move through the system</h2>
+      <ol class="flow-list">{project.flow.map((item, i) => <li><span>{String(i + 1).padStart(2, '0')}</span><p>{item}</p></li>)}</ol>
+    </section>
+
+    <section>
+      <div class="label">06 · SYSTEM DESIGN</div>
+      <h2>How the system is structured</h2>
+      <div class="architecture-list">
+        <ul>{project.architecture.map((item) => <li>{item}</li>)}</ul>
+      </div>
+      <div class="diagram"><pre class="mermaid">{project.mermaid}</pre></div>
+    </section>
+
+    <section>
+      <div class="label">07 · SCALABILITY</div>
+      <h2>Scaling characteristics</h2>
+      <div class="cards">{project.scalability.map((item) => <article><span>↗</span><p>{item}</p></article>)}</div>
+    </section>
+
+    <section>
+      <div class="label">08 · LIMITATIONS</div>
+      <h2>What this page does not pretend</h2>
+      <div class="limitations">{project.limitations.map((item) => <p>{item}</p>)}</div>
     </section>
 
     <section class="source">
       <div>
-        <div class="label">04 · PROJECT CONTEXT</div>
+        <div class="label">09 · PROJECT CONTEXT</div>
         <h2>{hasRepo ? 'Inspect the implementation' : 'Professional project'}</h2>
-        <p>{hasRepo ? 'Code, setup instructions, schema details, and implementation notes are available in the public repository.' : 'This work was completed in a professional context. Public source code is not linked, so this page intentionally limits itself to previously documented responsibilities, architecture, and technical decisions.'}</p>
+        <p>{hasRepo ? 'The public repository is the source of truth for implementation details, setup, schema, and code.' : 'This project was completed in a professional context. Public source code is not linked, so the documentation stays within responsibilities and technical details already established from my work.'}</p>
       </div>
       {hasRepo && <a href={project.repo} target="_blank" rel="noreferrer">Open GitHub repository ↗</a>}
     </section>
   </main>
 
-  <footer class="wrap">© {new Date().getFullYear()} Sambeet Sekhar Panda · Project engineering notes</footer>
+  <footer class="wrap">© {new Date().getFullYear()} Sambeet Sekhar Panda · Engineering case study</footer>
 
   <script is:inline>
     document.getElementById('theme')?.addEventListener('click', () => {
@@ -94,7 +124,7 @@ const hasRepo = 'repo' in project && Boolean(project.repo);
   </script>
 
   <style>
-    :root{--bg:#090a0c;--card:#111216;--text:#f4f4f1;--muted:#9a9ba3;--line:#25262b;--accent:#d8ff66;--soft:#15161a}html[data-theme=light]{--bg:#f7f7f3;--card:#fff;--text:#141416;--muted:#66676d;--line:#dddeda;--accent:#5e7800;--soft:#efefe9}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,sans-serif;line-height:1.65}body:before{content:'';position:fixed;inset:0;z-index:-1;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;mask-image:linear-gradient(#000,transparent 50%);opacity:.25}a{color:inherit;text-decoration:none}.wrap{width:min(1240px,calc(100% - 42px));margin:auto}header{position:sticky;top:0;z-index:10;border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(18px)}nav{height:70px;display:flex;align-items:center}.brand{font-weight:900}.brand span,h1 span,h2 span{color:var(--accent)}.actions{margin-left:auto;display:flex;gap:12px;align-items:center;font-size:.8rem}.repo,button{border:1px solid var(--line);background:var(--card);padding:8px 11px;border-radius:9px;color:var(--text)}button{cursor:pointer}.hero{padding:110px 0 92px;border:0}.eyebrow,.label{font-family:ui-monospace,monospace;letter-spacing:.12em;color:var(--muted);font-size:.72rem}.eyebrow{color:var(--accent)}h1{font-size:clamp(3.4rem,8vw,6.8rem);line-height:.92;letter-spacing:-.065em;margin:18px 0 26px}.lead{font-size:1.2rem;color:var(--muted);max-width:820px}.stack{display:flex;flex-wrap:wrap;gap:8px;margin-top:30px}.stack span{border:1px solid var(--line);background:var(--soft);border-radius:8px;padding:7px 10px;font-size:.76rem}section{padding:88px 0;border-top:1px solid var(--line)}h2{font-size:clamp(2.2rem,5vw,4.2rem);line-height:1;letter-spacing:-.05em;margin:12px 0 34px}.bodycopy{font-size:1.1rem;color:var(--muted);max-width:840px}.two-col{display:grid;grid-template-columns:1fr;gap:32px}.two-col ul{margin:0;padding-left:20px;columns:2;column-gap:56px}.two-col li{margin-bottom:16px;color:var(--muted);break-inside:avoid}.diagram{border:1px solid var(--line);background:var(--card);border-radius:14px;padding:36px;overflow:auto;min-height:460px;display:flex;align-items:center;justify-content:center}.diagram pre{margin:0;width:100%}.diagram :global(svg){width:100%!important;max-width:none!important;height:auto!important;min-height:400px}.scalability{display:grid;grid-template-columns:1fr 1fr;gap:12px}.scalability article{display:flex;gap:12px;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:20px}.scalability span{color:var(--accent)}.scalability p{margin:0;color:var(--muted)}.note{margin-top:20px;padding:16px;border-left:2px solid var(--accent);background:var(--soft);color:var(--muted);font-size:.84rem}.source{display:flex;align-items:end;justify-content:space-between;gap:40px}.source p{color:var(--muted);max-width:650px}.source a{white-space:nowrap;background:var(--accent);color:#111;padding:12px 16px;border-radius:9px;font-weight:800}footer{padding:32px 0 44px;border-top:1px solid var(--line);color:var(--muted);font-size:.75rem}@media(max-width:760px){.wrap{width:min(1080px,calc(100% - 42px))}.two-col,.scalability{grid-template-columns:1fr}.two-col ul{columns:1}.diagram{padding:20px;min-height:0;display:block}.diagram :global(svg){min-height:0}.source{align-items:flex-start;flex-direction:column}.hero{padding-top:86px}.actions>a:first-child{display:none}}
+    :root{--bg:#090a0c;--card:#111216;--text:#f4f4f1;--muted:#9a9ba3;--line:#25262b;--accent:#d8ff66;--soft:#15161a}html[data-theme=light]{--bg:#f7f7f3;--card:#fff;--text:#141416;--muted:#66676d;--line:#dddeda;--accent:#5e7800;--soft:#efefe9}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,sans-serif;line-height:1.65}body:before{content:'';position:fixed;inset:0;z-index:-1;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;mask-image:linear-gradient(#000,transparent 50%);opacity:.25}a{color:inherit;text-decoration:none}.wrap{width:min(1240px,calc(100% - 42px));margin:auto}header{position:sticky;top:0;z-index:10;border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(18px)}nav{height:70px;display:flex;align-items:center}.brand{font-weight:900}.brand span,h1 span,h2 span{color:var(--accent)}.actions{margin-left:auto;display:flex;gap:12px;align-items:center;font-size:.8rem}.repo,button{border:1px solid var(--line);background:var(--card);padding:8px 11px;border-radius:9px;color:var(--text)}button{cursor:pointer}.hero{padding:110px 0 92px;border:0}.eyebrow,.label{font-family:ui-monospace,monospace;letter-spacing:.12em;color:var(--muted);font-size:.72rem}.eyebrow{color:var(--accent)}h1{font-size:clamp(3.4rem,8vw,6.8rem);line-height:.92;letter-spacing:-.065em;margin:18px 0 26px}.lead{font-size:1.2rem;color:var(--muted);max-width:900px}.context{font-size:1rem;max-width:900px;margin-top:20px;padding-left:18px;border-left:2px solid var(--accent)}.stack{display:flex;flex-wrap:wrap;gap:8px;margin-top:30px}.stack span{border:1px solid var(--line);background:var(--soft);border-radius:8px;padding:7px 10px;font-size:.76rem}section{padding:88px 0;border-top:1px solid var(--line)}h2{font-size:clamp(2.2rem,5vw,4.2rem);line-height:1;letter-spacing:-.05em;margin:12px 0 34px}.bodycopy{font-size:1.13rem;color:var(--muted);max-width:930px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:12px}.cards article{display:flex;gap:14px;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:22px}.cards article>span{color:var(--accent);font-family:ui-monospace,monospace;font-weight:800}.cards p{margin:0;color:var(--muted)}.flow-list{list-style:none;margin:0;padding:0;display:grid;gap:10px;counter-reset:flow}.flow-list li{display:grid;grid-template-columns:52px 1fr;gap:18px;align-items:start;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:18px}.flow-list span{font-family:ui-monospace,monospace;color:var(--accent)}.flow-list p{margin:0;color:var(--muted)}.architecture-list ul{margin:0 0 32px;padding-left:20px;columns:2;column-gap:56px}.architecture-list li{margin-bottom:16px;color:var(--muted);break-inside:avoid}.diagram{border:1px solid var(--line);background:var(--card);border-radius:14px;padding:36px;overflow:auto;min-height:460px;display:flex;align-items:center;justify-content:center}.diagram pre{margin:0;width:100%}.diagram :global(svg){width:100%!important;max-width:none!important;height:auto!important;min-height:400px}.limitations{display:grid;grid-template-columns:1fr 1fr;gap:12px}.limitations p{margin:0;border-left:2px solid var(--accent);background:var(--soft);padding:18px 20px;color:var(--muted)}.source{display:flex;align-items:end;justify-content:space-between;gap:40px}.source p{color:var(--muted);max-width:720px}.source a{white-space:nowrap;background:var(--accent);color:#111;padding:12px 16px;border-radius:9px;font-weight:800}footer{padding:32px 0 44px;border-top:1px solid var(--line);color:var(--muted);font-size:.75rem}@media(max-width:760px){.wrap{width:min(1080px,calc(100% - 42px))}.cards,.limitations{grid-template-columns:1fr}.architecture-list ul{columns:1}.diagram{padding:20px;min-height:0;display:block}.diagram :global(svg){min-height:0}.source{align-items:flex-start;flex-direction:column}.hero{padding-top:86px}.actions>a:first-child{display:none}}
   </style>
 </body>
 </html>

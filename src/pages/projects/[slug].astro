@@ -6,6 +6,7 @@ export function getStaticPaths() {
 }
 
 const { project } = Astro.props;
+const hasRepo = 'repo' in project && Boolean(project.repo);
 ---
 <!doctype html>
 <html lang="en" data-theme="dark">
@@ -26,7 +27,7 @@ const { project } = Astro.props;
       <a class="brand" href="/">Sambeet<span>.</span></a>
       <div class="actions">
         <a href="/">← Portfolio</a>
-        <a class="repo" href={project.repo} target="_blank" rel="noreferrer">GitHub ↗</a>
+        {hasRepo && <a class="repo" href={project.repo} target="_blank" rel="noreferrer">GitHub ↗</a>}
         <button id="theme" aria-label="Toggle theme">◐</button>
       </div>
     </nav>
@@ -57,22 +58,22 @@ const { project } = Astro.props;
 
     <section>
       <div class="label">03 · SCALABILITY</div>
-      <h2>What scales, and what does not yet</h2>
+      <h2>Scaling characteristics and constraints</h2>
       <div class="scalability">{project.scalability.map((item) => <article><span>→</span><p>{item}</p></article>)}</div>
-      <p class="note">Scalability notes are based only on architecture and implementation details visible in the repository. No production traffic or user-count claims are inferred.</p>
+      <p class="note">These notes are limited to implementation details, architecture decisions, and professional project context already documented for this portfolio. No production traffic, user-count, or throughput figures are invented.</p>
     </section>
 
     <section class="source">
       <div>
-        <div class="label">04 · SOURCE OF TRUTH</div>
-        <h2>Inspect the implementation</h2>
-        <p>Code, setup instructions, schema details, and implementation notes are available in the repository.</p>
+        <div class="label">04 · PROJECT CONTEXT</div>
+        <h2>{hasRepo ? 'Inspect the implementation' : 'Professional project'}</h2>
+        <p>{hasRepo ? 'Code, setup instructions, schema details, and implementation notes are available in the public repository.' : 'This work was completed in a professional context. Public source code is not linked, so this page intentionally limits itself to previously documented responsibilities, architecture, and technical decisions.'}</p>
       </div>
-      <a href={project.repo} target="_blank" rel="noreferrer">Open GitHub repository ↗</a>
+      {hasRepo && <a href={project.repo} target="_blank" rel="noreferrer">Open GitHub repository ↗</a>}
     </section>
   </main>
 
-  <footer class="wrap">© {new Date().getFullYear()} Sambeet Sekhar Panda · Repository-backed project notes</footer>
+  <footer class="wrap">© {new Date().getFullYear()} Sambeet Sekhar Panda · Project engineering notes</footer>
 
   <script is:inline>
     document.getElementById('theme')?.addEventListener('click', () => {

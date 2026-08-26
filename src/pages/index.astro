@@ -89,8 +89,8 @@ search     developer tooling</span>
   </section>
 
   <section class="section wrap" id="projects">
-    <div class="label"><span>03</span> REPOSITORY-BACKED PROJECTS</div>
-    <div class="heading"><h2>Systems you can <span>inspect, not just read about.</span></h2><p>Every project below is tied to a public repository. Project descriptions, system design, and scalability notes are based on what is actually present in the code or repository documentation.</p></div>
+    <div class="label"><span>03</span> SELECTED PROJECTS</div>
+    <div class="heading"><h2>Systems I have <span>built and worked on.</span></h2><p>A mix of public engineering projects and professional systems. Public projects link to source code; professional project pages are limited to architecture, responsibilities, and technical details already documented from my work.</p></div>
     <div class="grid">
       {projects.map((p, i) =>
         <article class="card">
@@ -102,7 +102,7 @@ search     developer tooling</span>
             <div class="architecture"><b>ARCHITECTURE / STACK</b>{p.stack.join(' · ')}</div>
             <span class="details-link">View system design & scalability ↗</span>
           </a>
-          <a class="repo-link" href={p.repo} target="_blank" rel="noreferrer" onclick="event.stopPropagation()">GitHub repository ↗</a>
+          {'repo' in p && p.repo && <a class="repo-link" href={p.repo} target="_blank" rel="noreferrer" onclick="event.stopPropagation()">GitHub repository ↗</a>}
         </article>
       )}
     </div>

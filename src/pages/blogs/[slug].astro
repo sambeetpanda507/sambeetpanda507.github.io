@@ -1,0 +1,36 @@
+---
+import { blogs, getBlogBySlug } from '../../data/blogs';
+export function getStaticPaths() { return blogs.map((post) => ({ params: { slug: post.slug } })); }
+const { slug } = Astro.params;
+const post = getBlogBySlug(slug!);
+if (!post) return Astro.redirect('/blogs/');
+---
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width" />
+  <meta name="description" content={post.summary} /><title>{post.title} — Sambeet Sekhar Panda</title>
+  <link rel="canonical" href={`https://sambeetpanda507.github.io/blogs/${post.slug}/`} />
+  <script is:inline>const t=localStorage.getItem('theme');document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');</script>
+</head>
+<body>
+<header><nav class="wrap"><a class="brand" href="/">Sambeet<span>.</span></a><div class="navlinks"><a href="/">Home</a><a href="/blogs/">Blogs</a><a href="/#projects">Projects</a></div><button class="icon" id="theme" aria-label="Toggle theme">◐</button></nav></header>
+<main>
+  <article class="wrap article">
+    <a class="back" href="/blogs/">← All blogs</a>
+    <div class="meta">LINKEDIN → BLOG · TECHNICAL NOTES</div>
+    <h1>{post.title}</h1>
+    <p class="dek">{post.summary}</p>
+    <div class="tags">{post.tags.map(tag => <span>{tag}</span>)}</div>
+    <div class="content">
+      {post.sections.map(section => <section>{section.heading && <h2>{section.heading}</h2>}{section.paragraphs?.map(p => <p>{p}</p>)}{section.bullets && <ul>{section.bullets.map(item => <li>{item}</li>)}</ul>}</section>)}
+    </div>
+    <aside class="source"><div><span>SOURCE</span><strong>{post.sourceLabel}</strong></div><a href={post.sourceUrl} target="_blank" rel="noreferrer">View original post on LinkedIn ↗</a></aside>
+  </article>
+</main>
+<footer class="wrap"><span>© {new Date().getFullYear()} Sambeet Sekhar Panda</span><a href="/blogs/">More writing →</a></footer>
+<script is:inline>document.getElementById('theme')?.addEventListener('click',()=>{const n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;localStorage.setItem('theme',n)});</script>
+<style>
+:root{--bg:#090a0c;--card:#111216;--text:#f4f4f1;--muted:#9a9ba3;--line:#25262b;--accent:#d8ff66}html[data-theme=light]{--bg:#f7f7f3;--card:#fff;--text:#141416;--muted:#66676d;--line:#dddeda;--accent:#5e7800}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,sans-serif;line-height:1.75}body:before{content:'';position:fixed;inset:0;z-index:-1;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;mask-image:linear-gradient(#000,transparent 42%);opacity:.25}a{color:inherit;text-decoration:none}.wrap{width:min(860px,calc(100% - 42px));margin:auto}header{position:sticky;top:0;z-index:10;border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(18px)}nav{height:72px;display:flex;align-items:center;gap:30px}.brand{font-weight:900}.brand span{color:var(--accent)}.navlinks{margin-left:auto;display:flex;gap:24px}.navlinks a,.back{font-size:.82rem;color:var(--muted)}.icon{border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:9px;height:37px;width:37px;cursor:pointer}.article{padding:90px 0 110px}.back:hover{color:var(--accent)}.meta{font-family:ui-monospace,monospace;font-size:.7rem;letter-spacing:.12em;color:var(--accent);margin-top:60px}.article h1{font-size:clamp(2.8rem,7vw,5.4rem);line-height:.98;letter-spacing:-.06em;margin:18px 0 25px}.dek{font-size:1.18rem;color:var(--muted);max-width:720px}.tags{display:flex;gap:7px;flex-wrap:wrap;padding:22px 0 48px;border-bottom:1px solid var(--line)}.tags span{font-family:ui-monospace,monospace;font-size:.68rem;border:1px solid var(--line);border-radius:999px;padding:5px 9px;color:var(--muted)}.content{max-width:720px;margin:60px auto}.content section{margin:0 0 45px}.content h2{font-size:1.65rem;letter-spacing:-.035em;margin:0 0 15px}.content p{font-size:1.05rem;color:color-mix(in srgb,var(--text) 88%,var(--muted));margin:0 0 20px}.content li{margin:10px 0;color:color-mix(in srgb,var(--text) 86%,var(--muted))}.content li::marker{color:var(--accent)}.source{border:1px solid var(--line);background:var(--card);border-radius:14px;padding:22px 25px;display:flex;justify-content:space-between;gap:20px;align-items:center}.source div{display:flex;flex-direction:column}.source span{font-family:ui-monospace,monospace;font-size:.65rem;letter-spacing:.12em;color:var(--muted)}.source strong{font-size:.85rem}.source a{color:var(--accent);font-size:.78rem;font-weight:700}footer{border-top:1px solid var(--line);padding:28px 0 45px;display:flex;justify-content:space-between;color:var(--muted);font-size:.76rem}@media(max-width:650px){.wrap{width:min(100% - 28px,860px)}.navlinks a:nth-child(3){display:none}.article{padding-top:55px}.meta{margin-top:45px}.source{align-items:flex-start;flex-direction:column}footer{flex-direction:column;gap:12px}}
+</style>
+</body></html>

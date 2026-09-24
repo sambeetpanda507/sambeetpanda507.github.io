@@ -31,7 +31,8 @@ const principles = [
   <link rel="icon" href="/favicon.svg" />
   <title>Sambeet Sekhar Panda — Backend-Focused Software Engineer</title>
   <script is:inline>
-    const t = localStorage.getItem('theme');
+    let t = null;
+    try { t = localStorage.getItem('theme'); } catch (e) {}
     document.documentElement.dataset.theme = t || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
   </script>
 </head>
@@ -39,7 +40,7 @@ const principles = [
 <header>
   <nav class="wrap">
     <a class="brand" href="#top">Sambeet<span>.</span></a>
-    <div class="navlinks"><a href="#about">About</a><a href="#experience">Experience</a><a href="#projects">Projects</a><a href="#skills">Skills</a><a href="#contact">Contact</a></div>
+    <div class="navlinks"><a href="#about">About</a><a href="#experience">Experience</a><a href="#projects">Projects</a><a href="#skills">Skills</a><a href="/blogs/">Blogs</a><a href="#contact">Contact</a></div>
     <div class="actions">
       <a class="icon" href="https://github.com/sambeetpanda507" target="_blank" rel="noreferrer" aria-label="GitHub">GH</a>
       <a class="icon linkedin-icon" href={linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn">in</a>
@@ -137,7 +138,7 @@ developer tooling   system design</span>
   document.getElementById('theme')?.addEventListener('click', () => {
     const n = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
     document.documentElement.dataset.theme = n;
-    localStorage.setItem('theme', n);
+    try { localStorage.setItem('theme', n); } catch (e) {}
   });
 </script>
 

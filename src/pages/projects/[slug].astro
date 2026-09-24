@@ -14,10 +14,17 @@ const hasRepo = 'repo' in project && Boolean(project.repo);
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width" />
   <meta name="description" content={project.summary} />
+  <meta property="og:title" content={`${project.title} — Sambeet Sekhar Panda`} />
+  <meta property="og:description" content={project.summary} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={`https://sambeetpanda507.github.io/projects/${project.slug}/`} />
+  <link rel="canonical" href={`https://sambeetpanda507.github.io/projects/${project.slug}/`} />
+  <link rel="icon" href="/favicon.svg" />
   <title>{project.title} — Sambeet Sekhar Panda</title>
-  <script is:inline src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <script is:inline src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js" defer></script>
   <script is:inline>
-    const t = localStorage.getItem('theme');
+    let t = null;
+    try { t = localStorage.getItem('theme'); } catch (e) {}
     document.documentElement.dataset.theme = t || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
   </script>
 </head>
@@ -109,7 +116,7 @@ const hasRepo = 'repo' in project && Boolean(project.repo);
     document.getElementById('theme')?.addEventListener('click', () => {
       const n = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
       document.documentElement.dataset.theme = n;
-      localStorage.setItem('theme', n);
+      try { localStorage.setItem('theme', n); } catch (e) {}
       location.reload();
     });
     window.addEventListener('DOMContentLoaded', () => {

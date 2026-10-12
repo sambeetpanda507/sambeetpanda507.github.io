@@ -199,5 +199,5 @@ h1, h2, h3 { font-family: var(--display); line-height: 1.15; text-wrap: balance;
   .navlinks.open { max-height: 420px; visibility: visible; transition: max-height .35s var(--ease); }
   .navlinks a { padding: 15px 0; font-size: .9rem; border-top: 1px solid var(--line); }
   .nav-pill { display: none; }
-  .actions { margin-left: auto; }
+  .actions, .navlinks + .actions { margin-left: auto; }
 }

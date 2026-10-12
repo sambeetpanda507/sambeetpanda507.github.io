@@ -1,4 +1,5 @@
 ---
+import Head from '../../components/Head.astro';
 import { projects } from '../../data/projects';
 
 export function getStaticPaths() {
@@ -11,96 +12,85 @@ const hasRepo = 'repo' in project && Boolean(project.repo);
 <!doctype html>
 <html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width" />
-  <meta name="description" content={project.summary} />
-  <meta property="og:title" content={`${project.title} — Sambeet Sekhar Panda`} />
-  <meta property="og:description" content={project.summary} />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content={`https://sambeetpanda507.github.io/projects/${project.slug}/`} />
-  <link rel="canonical" href={`https://sambeetpanda507.github.io/projects/${project.slug}/`} />
-  <link rel="icon" href="/favicon.svg" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <title>{project.title} — Sambeet Sekhar Panda</title>
+  <Head
+    title={`${project.title} — Sambeet Sekhar Panda`}
+    description={project.summary}
+    url={`https://sambeetpanda507.github.io/projects/${project.slug}/`}
+  />
   <script is:inline src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js" defer></script>
-  <script is:inline>
-    let t = null;
-    try { t = localStorage.getItem('theme'); } catch (e) {}
-    document.documentElement.dataset.theme = t || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
-  </script>
 </head>
 <body>
-  <header>
-    <nav class="wrap">
+  <header class="site-header">
+    <nav class="wrap nav-row">
       <a class="brand" href="/">Sambeet<span>.</span></a>
       <div class="actions">
-        <a href="/">← Portfolio</a>
-        {hasRepo && <a class="repo" href={project.repo} target="_blank" rel="noreferrer">GitHub ↗</a>}
-        <button id="theme" aria-label="Toggle theme">◐</button>
+        <a class="back" href="/"><span class="arr">←</span> Portfolio</a>
+        {hasRepo && <a class="icon" href={project.repo} target="_blank" rel="noreferrer">GitHub ↗</a>}
+        <button class="icon" id="theme" type="button" aria-label="Toggle theme">◐</button>
       </div>
     </nav>
+    <div class="progress" aria-hidden="true"></div>
   </header>
 
   <main class="wrap">
-    <section class="hero">
-      <p class="eyebrow">PROJECT CASE STUDY / {project.tag}</p>
-      <h1>{project.title}</h1>
-      <p class="lead">{project.summary}</p>
-      <p class="context">{project.context}</p>
-      <div class="stack">{project.stack.map((item) => <span>{item}</span>)}</div>
+    <section class="hero" id="hero">
+      <canvas class="field" id="field" aria-hidden="true"></canvas>
+      <p class="eyebrow fade-in">PROJECT CASE STUDY / {project.tag}</p>
+      <h1 class="fade-in" style="--d:120ms">{project.title}</h1>
+      <p class="lead fade-in" style="--d:240ms">{project.summary}</p>
+      <p class="context fade-in" style="--d:340ms">{project.context}</p>
+      <div class="stack">{project.stack.map((item, i) => <span class="fade-in" style={`--d:${420 + i * 60}ms`}>{item}</span>)}</div>
     </section>
 
     <section>
       <div class="label">01 · PROBLEM & CONTEXT</div>
-      <h2>Why this project exists</h2>
+      <h2 class="wipe">Why this project exists</h2>
       <p class="bodycopy">{project.problem}</p>
     </section>
 
     <section>
       <div class="label">02 · MY CONTRIBUTION</div>
-      <h2>What I worked on</h2>
-      <div class="cards">{project.contribution.map((item) => <article><span>→</span><p>{item}</p></article>)}</div>
+      <h2 class="wipe">What I worked on</h2>
+      <div class="cards">{project.contribution.map((item) => <article class="rv"><span>→</span><p>{item}</p></article>)}</div>
     </section>
 
     <section>
       <div class="label">03 · ENGINEERING CHALLENGES</div>
-      <h2>What made it interesting</h2>
-      <div class="cards">{project.challenges.map((item) => <article><span>!</span><p>{item}</p></article>)}</div>
+      <h2 class="wipe">What made it interesting</h2>
+      <div class="cards">{project.challenges.map((item) => <article class="rv"><span>!</span><p>{item}</p></article>)}</div>
     </section>
 
     <section>
       <div class="label">04 · DESIGN DECISIONS</div>
-      <h2>Why the architecture looks this way</h2>
-      <div class="cards">{project.decisions.map((item) => <article><span>✓</span><p>{item}</p></article>)}</div>
+      <h2 class="wipe">Why the architecture looks this way</h2>
+      <div class="cards">{project.decisions.map((item) => <article class="rv"><span>✓</span><p>{item}</p></article>)}</div>
     </section>
 
     <section>
       <div class="label">05 · EXECUTION FLOW</div>
-      <h2>How data and work move through the system</h2>
-      <ol class="flow-list">{project.flow.map((item, i) => <li><span>{String(i + 1).padStart(2, '0')}</span><p>{item}</p></li>)}</ol>
+      <h2 class="wipe">How data and work move through the system</h2>
+      <ol class="flow-list">{project.flow.map((item, i) => <li class="rv"><span>{String(i + 1).padStart(2, '0')}</span><p>{item}</p></li>)}</ol>
     </section>
 
     <section>
       <div class="label">06 · SYSTEM DESIGN</div>
-      <h2>How the system is structured</h2>
+      <h2 class="wipe">How the system is structured</h2>
       <div class="architecture-list">
         <ul>{project.architecture.map((item) => <li>{item}</li>)}</ul>
       </div>
-      <div class="diagram" id="diagram" data-source={project.mermaid}><pre class="mermaid">{project.mermaid}</pre></div>
+      <div class="diagram rv" id="diagram" data-source={project.mermaid}><pre class="mermaid">{project.mermaid}</pre></div>
     </section>
 
     <section>
       <div class="label">07 · SCALABILITY</div>
-      <h2>Scaling characteristics</h2>
-      <div class="cards">{project.scalability.map((item) => <article><span>↗</span><p>{item}</p></article>)}</div>
+      <h2 class="wipe">Scaling characteristics</h2>
+      <div class="cards">{project.scalability.map((item) => <article class="rv"><span>↗</span><p>{item}</p></article>)}</div>
     </section>
 
     <section>
       <div class="label">08 · LIMITATIONS</div>
-      <h2>What this page does not pretend</h2>
-      <div class="limitations">{project.limitations.map((item) => <p>{item}</p>)}</div>
+      <h2 class="wipe">What this page does not pretend</h2>
+      <div class="limitations">{project.limitations.map((item) => <p class="rv">{item}</p>)}</div>
     </section>
 
     <section class="source">
@@ -109,61 +99,116 @@ const hasRepo = 'repo' in project && Boolean(project.repo);
         <h2>{hasRepo ? 'Inspect the implementation' : 'Professional project'}</h2>
         <p>{hasRepo ? 'The public repository is the source of truth for implementation details, setup, schema, and code.' : 'This project was completed in a professional context. Public source code is not linked, so the documentation stays within responsibilities and technical details already established from my work.'}</p>
       </div>
-      {hasRepo && <a href={project.repo} target="_blank" rel="noreferrer">Open GitHub repository ↗</a>}
+      {hasRepo && <a class="btn primary magnet" href={project.repo} target="_blank" rel="noreferrer">Open GitHub repository <span class="arr">↗</span></a>}
     </section>
   </main>
 
-  <footer class="wrap">© {new Date().getFullYear()} Sambeet Sekhar Panda · Engineering case study</footer>
+  <footer class="site-footer"><div class="wrap">© {new Date().getFullYear()} Sambeet Sekhar Panda · Engineering case study</div></footer>
 
   <script is:inline>
     function renderDiagram() {
       const el = document.getElementById('diagram');
       if (!el || typeof mermaid === 'undefined') return;
-      const source = el.dataset.source;
-      el.innerHTML = '';
+      const css = getComputedStyle(document.documentElement);
+      const v = (name) => css.getPropertyValue(name).trim();
       const pre = document.createElement('pre');
       pre.className = 'mermaid';
-      pre.textContent = source;
-      el.appendChild(pre);
+      pre.textContent = el.dataset.source;
+      el.replaceChildren(pre);
       mermaid.initialize({
         startOnLoad: false,
-        theme: document.documentElement.dataset.theme === 'light' ? 'default' : 'dark',
+        theme: 'base',
         securityLevel: 'loose',
-        themeVariables: { fontSize: '18px' },
+        themeVariables: {
+          fontSize: '18px',
+          fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
+          background: v('--panel'),
+          primaryColor: v('--panel-2'),
+          primaryTextColor: v('--fg'),
+          primaryBorderColor: v('--signal'),
+          secondaryColor: v('--panel-2'),
+          tertiaryColor: v('--panel'),
+          lineColor: v('--muted'),
+          textColor: v('--fg'),
+          edgeLabelBackground: v('--panel'),
+          clusterBkg: v('--panel-2'),
+          clusterBorder: v('--line')
+        },
         flowchart: { useMaxWidth: true, htmlLabels: true }
       });
       mermaid.run({ nodes: [pre] });
     }
-    document.getElementById('theme')?.addEventListener('click', () => {
-      const n = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-      document.documentElement.dataset.theme = n;
-      try { localStorage.setItem('theme', n); } catch (e) {}
-      renderDiagram();
-    });
+    document.addEventListener('themechange', renderDiagram);
     window.addEventListener('DOMContentLoaded', renderDiagram);
-
-    if (matchMedia('(prefers-reduced-motion: no-preference)').matches) {
-      const sections = document.querySelectorAll('main > section:not(.hero)');
-      sections.forEach((s) => s.classList.add('reveal'));
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) { entry.target.classList.add('is-visible'); io.unobserve(entry.target); }
-        });
-      }, { threshold: 0.1 });
-      sections.forEach((s) => io.observe(s));
-    }
+  </script>
+  <script>
+    import { embeddingField } from '../../scripts/space';
+    embeddingField(document.getElementById('field') as HTMLCanvasElement, document.getElementById('hero')!, { centerX: .8 });
   </script>
 
-  <style>
-    :root{--bg:#090a0c;--card:#111216;--text:#f4f4f1;--muted:#9a9ba3;--line:#25262b;--accent:#d8ff66;--soft:#15161a}html[data-theme=light]{--bg:#f7f7f3;--card:#fff;--text:#141416;--muted:#66676d;--line:#dddeda;--accent:#5e7800;--soft:#efefe9}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,sans-serif;line-height:1.65}body:before{content:'';position:fixed;inset:0;z-index:-1;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;mask-image:linear-gradient(#000,transparent 50%);opacity:.25}a{color:inherit;text-decoration:none}.wrap{width:min(1240px,calc(100% - 42px));margin:auto}header{position:sticky;top:0;z-index:10;border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(18px)}nav{height:70px;display:flex;align-items:center}.brand{font-weight:900}.brand span,h1 span,h2 span{color:var(--accent)}.actions{margin-left:auto;display:flex;gap:12px;align-items:center;font-size:.8rem}.repo,button{border:1px solid var(--line);background:var(--card);padding:8px 11px;border-radius:9px;color:var(--text)}button{cursor:pointer}.hero{padding:110px 0 92px;border:0}.eyebrow,.label{font-family:ui-monospace,monospace;letter-spacing:.12em;color:var(--muted);font-size:.72rem}.eyebrow{color:var(--accent)}h1{font-size:clamp(3.4rem,8vw,6.8rem);line-height:.92;letter-spacing:-.065em;margin:18px 0 26px}.lead{font-size:1.2rem;color:var(--muted);max-width:900px}.context{font-size:1rem;max-width:900px;margin-top:20px;padding-left:18px;border-left:2px solid var(--accent)}.stack{display:flex;flex-wrap:wrap;gap:8px;margin-top:30px}.stack span{border:1px solid var(--line);background:var(--soft);border-radius:8px;padding:7px 10px;font-size:.76rem}section{padding:88px 0;border-top:1px solid var(--line)}h2{font-size:clamp(2.2rem,5vw,4.2rem);line-height:1;letter-spacing:-.05em;margin:12px 0 34px}.bodycopy{font-size:1.13rem;color:var(--muted);max-width:930px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:12px}.cards article{display:flex;gap:14px;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:22px}.cards article>span{color:var(--accent);font-family:ui-monospace,monospace;font-weight:800}.cards p{margin:0;color:var(--muted)}.flow-list{list-style:none;margin:0;padding:0;display:grid;gap:10px;counter-reset:flow}.flow-list li{display:grid;grid-template-columns:52px 1fr;gap:18px;align-items:start;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:18px}.flow-list span{font-family:ui-monospace,monospace;color:var(--accent)}.flow-list p{margin:0;color:var(--muted)}.architecture-list ul{margin:0 0 32px;padding-left:20px;columns:2;column-gap:56px}.architecture-list li{margin-bottom:16px;color:var(--muted);break-inside:avoid}.diagram{border:1px solid var(--line);background:var(--card);border-radius:14px;padding:36px;overflow:auto;min-height:460px;display:flex;align-items:center;justify-content:center}.diagram pre{margin:0;width:100%}.diagram :global(svg){width:100%!important;max-width:none!important;height:auto!important;min-height:400px}.limitations{display:grid;grid-template-columns:1fr 1fr;gap:12px}.limitations p{margin:0;border-left:2px solid var(--accent);background:var(--soft);padding:18px 20px;color:var(--muted)}.source{display:flex;align-items:end;justify-content:space-between;gap:40px}.source p{color:var(--muted);max-width:720px}.source a{white-space:nowrap;background:var(--accent);color:#111;padding:12px 16px;border-radius:9px;font-weight:800}footer{padding:32px 0 44px;border-top:1px solid var(--line);color:var(--muted);font-size:.75rem}@media(max-width:760px){.wrap{width:min(1080px,calc(100% - 42px))}.cards,.limitations{grid-template-columns:1fr}.architecture-list ul{columns:1}.diagram{padding:20px;min-height:0;display:block}.diagram :global(svg){min-height:0}.source{align-items:flex-start;flex-direction:column}.hero{padding-top:86px}.actions>a:first-child{display:none}}
-    a:focus-visible,button:focus-visible,.repo:focus-visible,.cards article:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
-    body,header,.repo,button,.cards article,.flow-list li,.stack span{transition:background-color .25s ease,border-color .25s ease,color .25s ease}
-    .cards article:hover,.flow-list li:hover{border-color:color-mix(in srgb,var(--accent) 35%,var(--line))}
-    @media (prefers-reduced-motion: no-preference){
-      .cards article,.flow-list li{transition:background-color .25s ease,border-color .25s ease,color .25s ease,transform .25s ease}
-      .cards article:hover,.flow-list li:hover{transform:translateY(-2px)}
-      section.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
-      section.reveal.is-visible{opacity:1;transform:none}
+  <style is:global>
+    .back { display: inline-flex; gap: 8px; padding: 0 6px; color: var(--muted); font: 500 .8rem/1 var(--mono); transition: color .2s; }
+    .back .arr { display: inline-block; transition: transform .35s var(--ease); }
+    .back:hover { color: var(--fg); }
+    .back:hover .arr { transform: translateX(-4px); }
+    .hero { position: relative; isolation: isolate; padding-block: clamp(80px, 10vw, 130px) clamp(60px, 7vw, 96px); }
+    .field { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; -webkit-mask-image: radial-gradient(ellipse 55% 90% at 80% 50%, #000 20%, transparent 75%); mask-image: radial-gradient(ellipse 55% 90% at 80% 50%, #000 20%, transparent 75%); }
+    .eyebrow { margin: 0; color: var(--ok); font: 500 .72rem/1.5 var(--mono); letter-spacing: .12em; }
+    .hero h1 { margin: 18px 0 26px; max-width: 16ch; font-size: clamp(3rem, 7.6vw, 6.6rem); font-weight: 850; font-stretch: 114%; line-height: .92; letter-spacing: -.05em; }
+    .lead { margin: 0; max-width: 62ch; color: var(--muted); font-size: 1.2rem; }
+    .context { max-width: 62ch; margin: 22px 0 0; padding-left: 18px; border-left: 2px solid var(--signal); }
+    .stack { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 30px; }
+    .stack span { padding: 8px 11px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); font: 500 .78rem/1 var(--mono); }
+
+    main > section:not(.hero):not(.source) { display: grid; grid-template-columns: 200px minmax(0, 1fr); column-gap: clamp(20px, 4vw, 56px); padding-block: 88px; border-top: 1px solid var(--line); }
+    main > section:not(.hero):not(.source) > * { grid-column: 2; min-width: 0; }
+    main > section:not(.hero):not(.source) > .label { grid-column: 1; grid-row: 1 / span 4; position: sticky; top: 100px; align-self: start; }
+    .label { color: var(--muted); }
+    h2 { margin: 0 0 34px; font-size: clamp(2rem, 4.6vw, 3.8rem); font-weight: 800; font-stretch: 106%; line-height: 1; letter-spacing: -.035em; }
+    .bodycopy { margin: 0; max-width: 70ch; color: var(--muted); font-size: 1.13rem; }
+    .cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .cards article { display: flex; gap: 14px; padding: 22px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel); transition: transform .4s var(--ease), border-color .3s; }
+    .cards article:hover { transform: translateY(-3px); border-color: color-mix(in srgb, var(--signal) 50%, var(--line)); }
+    .cards article > span { color: var(--signal); font: 600 .9rem/1.6 var(--mono); }
+    .cards p { margin: 0; color: var(--muted); }
+    .flow-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+    .flow-list li { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 18px; align-items: start; padding: 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); transition: border-color .3s, transform .4s var(--ease); }
+    .flow-list li:hover { transform: translateX(6px); border-color: color-mix(in srgb, var(--signal) 50%, var(--line)); }
+    .flow-list span { color: var(--hot); font: 500 .85rem/1.6 var(--mono); }
+    .flow-list p { margin: 0; color: var(--muted); }
+    .architecture-list ul { margin: 0 0 32px; padding-left: 20px; columns: 2; column-gap: 56px; }
+    .architecture-list li { margin-bottom: 16px; color: var(--muted); break-inside: avoid; }
+    .architecture-list li::marker { color: var(--signal); }
+    .diagram { display: flex; align-items: center; justify-content: center; min-height: 460px; padding: 36px; overflow: auto; border: 1px solid var(--line); border-radius: 16px; background: var(--panel); }
+    .diagram pre { width: 100%; margin: 0; }
+    .diagram svg { width: 100% !important; max-width: none !important; height: auto !important; min-height: 400px; }
+    .limitations { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .limitations p { margin: 0; padding: 18px 20px; border-left: 2px solid var(--hot); border-radius: 0 10px 10px 0; background: var(--panel); color: var(--muted); }
+    .source { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; padding-block: 88px; border-top: 1px solid var(--line); }
+    .source h2 { margin: 12px 0 18px; }
+    .source p { max-width: 70ch; margin: 0; color: var(--muted); }
+    .source .btn { flex-shrink: 0; }
+    .site-footer { border-top: 1px solid var(--line); }
+    .site-footer .wrap { padding-block: 28px 44px; color: var(--faint); font: 500 .74rem/1.4 var(--mono); }
+
+    @media (prefers-reduced-motion: no-preference) {
+      @supports (animation-timeline: view()) {
+        .flow-list li { animation: step-in linear both; animation-timeline: view(); animation-range: entry 0% entry 70%; }
+        @keyframes step-in { from { opacity: 0; transform: translateX(-40px); } }
+      }
+    }
+    @media (max-width: 820px) {
+      main > section:not(.hero):not(.source) { grid-template-columns: 1fr; padding-block: 64px; }
+      main > section:not(.hero):not(.source) > *, main > section:not(.hero):not(.source) > .label { grid-column: 1; grid-row: auto; position: static; }
+      main > section:not(.hero):not(.source) > .label { margin-bottom: 12px; }
+      .cards, .limitations { grid-template-columns: 1fr; }
+      .architecture-list ul { columns: 1; }
+      .diagram { display: block; min-height: 0; padding: 20px; }
+      .diagram svg { min-height: 0; }
+      .source { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 420px) {
+      .back { display: none; }
     }
   </style>
 </body>

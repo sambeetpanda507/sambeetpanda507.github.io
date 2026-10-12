@@ -141,8 +141,8 @@ h1, h2, h3 { font-family: var(--display); line-height: 1.15; text-wrap: balance;
 .btn.primary:hover::after { transform: translateX(120%); }
 
 /* section label rail */
-.label { font: 500 .74rem/1.5 var(--mono); letter-spacing: .1em; color: var(--muted); text-transform: uppercase; }
-.label span { color: var(--signal); margin-right: 10px; }
+div.label { font: 500 .74rem/1.5 var(--mono); letter-spacing: .1em; color: var(--muted); text-transform: uppercase; }
+div.label span { color: var(--signal); margin-right: 10px; }
 
 /* custom cursor (added by script on fine pointers only) */
 .cursor, .cursor-dot {

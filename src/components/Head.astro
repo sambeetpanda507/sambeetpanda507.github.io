@@ -1,0 +1,35 @@
+---
+import '../styles/site.css';
+
+interface Props {
+  title: string;
+  description: string;
+  url: string;
+  ogType?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+}
+
+const { title, description, url, ogType = 'website', ogTitle = title, ogDescription = description } = Astro.props;
+---
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<meta name="description" content={description} />
+<meta property="og:title" content={ogTitle} />
+<meta property="og:description" content={ogDescription} />
+<meta property="og:type" content={ogType} />
+<meta property="og:url" content={url} />
+<link rel="canonical" href={url} />
+<link rel="icon" href="/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<title>{title}</title>
+<script is:inline>
+  let t = null;
+  try { t = localStorage.getItem('theme'); } catch (e) {}
+  document.documentElement.dataset.theme = t || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+</script>
+<script>
+  import '../scripts/site';
+</script>

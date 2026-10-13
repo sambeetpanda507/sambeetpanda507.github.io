@@ -178,8 +178,8 @@ const terminal: [string, 'cmd' | 'out' | 'list' | 'blank'][] = [
 .status i { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); animation: beat 2.4s infinite; }
 @keyframes beat { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--ok) 60%, transparent); } 70% { box-shadow: 0 0 0 9px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
 .eyebrow { margin: 28px 0 0; font: 500 .74rem/1.5 var(--mono); letter-spacing: .1em; color: var(--muted); }
-.name { margin: 18px 0 28px; font-size: clamp(3.3rem, 8.6vw, 8rem); font-weight: 850; font-stretch: 118%; line-height: .86; letter-spacing: -.045em; }
-.name .line { display: block; overflow: hidden; padding-bottom: .06em; }
+.name { margin: 18px 0 28px; font-size: clamp(3rem, 7.2vw, 6rem); font-weight: 850; font-stretch: 118%; line-height: .86; letter-spacing: -.045em; }
+.name .line { display: block; overflow: hidden; padding-bottom: .06em; white-space: nowrap; }
 .name .accent { color: var(--signal); }
 .name .ch { display: inline-block; }
 .lead { margin: 0; max-width: 56ch; color: var(--muted); font-size: clamp(1.05rem, 1.4vw, 1.2rem); }
@@ -316,6 +316,7 @@ const terminal: [string, 'cmd' | 'out' | 'list' | 'blank'][] = [
 
 @media (max-width: 1020px) {
   .hero { grid-template-columns: 1fr; }
+  .name { font-size: clamp(3rem, 11vw, 6rem); }
   .field { opacity: .55; }
   .slab { --tx: 6deg; --ty: 0deg; }
   .slab::before { transform: translate3d(0, 12px, -40px); }
